@@ -39,13 +39,8 @@ setup(
     # Parser package.
     packages=['torrentparser'],
 
-    # Run-time dependencies.
-    install_requires=[],
-
-    # Additional dependencies (for tests.)
-    extras_require={
-        'tests': ['coverage'],
-    },
+    # Where the unit tests are located.
+    test_suite="tests",
 
     # Entry points.
     entry_points={
