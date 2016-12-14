@@ -1,5 +1,6 @@
 import unittest
-from torrentparser.bencoding import decode_byte_string, decode_integer, BencodingDecodeException
+from torrentparser.bencoding import decode_byte_string, decode_integer, decode_list, decode_dictionary,\
+    BencodingDecodeException
 
 
 class TestBencodingByteString(unittest.TestCase):
@@ -32,3 +33,8 @@ class TestBencodingInteger(unittest.TestCase):
     def test_64bit(self):
         self.assertEqual(decode_integer("i18446744073709551615e"), (18446744073709551615, 22))
 
+
+class TestBencodingList(unittest.TestCase):
+
+    def test_empty_list(self):
+        self.assertEqual(decode_list("le"), ([], 2))

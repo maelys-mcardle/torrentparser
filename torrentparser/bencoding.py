@@ -7,7 +7,7 @@ def decode_byte_string(encoded_byte_string):
     """
     Decodes a Bencoding byte string.
     :param encoded_byte_string: The byte string in Bencoding.
-    :return: Tuple containing the byte string and the end byte index.
+    :return: Tuple containing the byte string and the end byte position.
     """
 
     # Find the colon.
@@ -34,7 +34,7 @@ def decode_byte_string(encoded_byte_string):
             string_size_as_integer = int(string_size_as_string)
 
             # Calculate where the byte string actually starts and ends in the encoded data.
-            byte_string_start, byte_string_end = delimiter_position+1, delimiter_position+1+string_size_as_integer
+            byte_string_start, byte_string_end = delimiter_position + 1, delimiter_position + 1 + string_size_as_integer
 
             # If the end exceeds the boundaries of the input, indicate an error.
             if byte_string_end > len(encoded_byte_string):
@@ -50,7 +50,7 @@ def decode_integer(encoded_integer):
     """
     Decodes a Bencoding integer.
     :param encoded_integer: The integer in Bencoding.
-    :return: Tuple containing the integer and the end byte index.
+    :return: Tuple containing the integer and the end byte position.
     """
 
     # First byte needs to be a "i" to signify that it's a Bencoding integer.
@@ -84,8 +84,8 @@ def decode_integer(encoded_integer):
 def decode_list(encoded_list):
     """
     Decodes a Bencoding list.
-    :param encoded_list:
-    :return:
+    :param encoded_list: The list in Bencoding.
+    :return: Tuple containing the list and the end byte position.
     """
 
     # First byte needs to be a "l" to signify that it's a Bencoding list.
@@ -96,77 +96,41 @@ def decode_list(encoded_list):
     decoded_list = list()
     start_position = 1
 
-    # Continue reading.
+    # Continue reading until the end.
     while True:
 
         # Start position unreadable.
         if start_position >= len(encoded_list):
             raise BencodingDecodeException("Invalid list (missing data)")
 
-        #
-        first_byte = encoded_list[start_position]
-
         # List is finished.
-        if first_byte == "e":
+        if encoded_list[start_position] == "e":
             break
 
-        # List item: integer.
-        elif first_byte == "i":
-
-        # List item: nested list.
-        elif first_byte == "l":
-
-        # List item: dictionary.
-        elif first_byte == "d":
-
-        # List item: byte string.
-        elif first_byte.isdigit():
-
-        # Unknown list item.
+        # There's a list item. Decode it.
         else:
+            item, start_position = decode_item(encoded_list[start_position:])
+            decoded_list.append(item)
 
-
-def is_byte_string(encoded_byte_string):
-    """
-    Convenience function to identify whether it's a byte string.
-    :param encoded_byte_string: The byte string in Bencoding.
-    :return: Boolean indicating if this is a byte string.
-    """
-
-    try:
-        decode_byte_string(encoded_byte_string)
-        return True
-    except BencodingDecodeException:
-        return False
-
-
-def is_integer(encoded_integer):
-    """
-    Convenience function to identify whether it's an integer.
-    :param encoded_integer: The integer in Bencoding.
-    :return: Boolean indicating if this is an integer.
-    """
-
-    try:
-        decode_integer(encoded_integer)
-        return True
-    except BencodingDecodeException:
-        return False
+    return decoded_list, start_position + 1
 
 
 def decode_dictionary(encoded_dictionary):
     """
-    Decodes Bencoding dictionaries.
+    Decodes a Bencoding dictionary.
+    :param encoded_dictionary: The dictionary in Bencoding.
+    :return: Tuple containing the dictionary and the end byte position.
     """
 
     # First byte needs to be a "d" to signify that it's a Bencoding dictionary.
     if len(encoded_dictionary) == 0 or encoded_dictionary[0] != "d":
         raise BencodingDecodeException("Not a dictionary")
 
+    # Initialize a dictionary.
     start_position = 1
     decoded_dictionary = dict()
 
-    # Continue reading.
+    # Continue reading until the end.
     while True:
 
         # Start position unreadable.
@@ -177,9 +141,52 @@ def decode_dictionary(encoded_dictionary):
         if encoded_dictionary[start_position] == "e":
             break
 
-        # Read
+        # Decode the dictionary key/value pair.
+        else:
 
-    return decoded_dictionary
+            # Grab the key.
+            key, value_position = decode_item(encoded_dictionary[start_position:])
+
+            # Value unreadable.
+            if value_position >= len(encoded_dictionary):
+                raise BencodingDecodeException("Invalid dictionary (missing data)")
+
+            # Grab the value.
+            value, start_position = decode_item(encoded_dictionary[value_position:])
+
+            # Load it in the dictionary.
+            decoded_dictionary[key] = value
+
+    return decoded_dictionary, start_position + 1
+
+
+def decode_item(encoded_item):
+    """
+    Decodes the items found in a list or dictionary.
+    :param encoded_item: The encoded item (byte string, integer, list, dict).
+    :return: A tuple containing the decoded item and the end byte position.
+    """
+    first_byte = encoded_item[0]
+
+    # Item is an integer.
+    if first_byte == "i":
+        return decode_integer(encoded_item)
+
+    # Item is a list.
+    elif first_byte == "l":
+        return decode_list(encoded_item)
+
+    # Item is a dictionary.
+    elif first_byte == "d":
+        return decode_dictionary(encoded_item)
+
+    # Item is a byte string.
+    elif first_byte.isdigit():
+        return decode_dictionary(encoded_item)
+
+    # Unknown item.
+    else:
+        raise BencodingDecodeException("Unrecognized item")
 
 
 class BencodingDecodeException(Exception):
@@ -187,4 +194,3 @@ class BencodingDecodeException(Exception):
     Exception raised during decoding of data encoded with Bencoding.
     """
     pass
-
