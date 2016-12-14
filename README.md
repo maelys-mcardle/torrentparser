@@ -131,3 +131,34 @@ It's available upon the installation of the `torrentparser` module.
     # Show more information stored in the torrent file.
     show_torrent_info /path/to/file.torrent --verbose
     
+Example usage:
+
+    show_torrent_info tests/sample/v1publicacc1985canauoft_archive.torrent 
+    
+    INFO
+      Tracker URL:   http://bt1.archive.org:6969/announce
+      Tracker List:  [['http://bt1.archive.org:6969/announce'], ['http://bt2.archive.org:6969/announce']]
+      Creation Date: 2016-05-14T09:31:09
+      Created By:    None
+      Private:       None
+      Comment:       This content hosted at the Internet Archive at https://archive.org/details/v1publicacc1985canauoft
+    Files may have changed, which prevents torrents from downloading correctly or completely; please check for an updated torrent at https://archive.org/download/v1publicacc1985canauoft/v1publicacc1985canauoft_archive.torrent
+    Note: retrieval usually requires a client that supports webseeding (GetRight style).
+    Note: many Internet Archive torrents contain a 'pad file' directory. This directory and the files within it may be erased once retrieval completes.
+    Note: the file v1publicacc1985canauoft_meta.xml contains metadata about this torrent's contents.
+    
+    FILE LISTING
+      Directory: v1publicacc1985canauoft
+      'scandata.zip'
+        Size:     53836494 bytes
+        Checksum: 7f00fc2e981f9f23673509c32abb6796
+    
+      'v1publicacc1985canauoft.djvu'
+        Size:     12970369 bytes
+        Checksum: 3ff96e977cf6f4516310a029e514444d
+    
+      'v1publicacc1985canauoft.gif'
+        Size:     318858 bytes
+        Checksum: bc0740dab98c47d9a80cf41853c93ca4
+
+    ...

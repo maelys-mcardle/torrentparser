@@ -62,7 +62,10 @@ def parse_torrent_file(file_path):
             torrent.info.length = metainfo_info["length"]
 
         if "md5sum" in metainfo_info:
-            torrent.info.name = metainfo_info["md5sum"]
+            torrent.info.md5sum = metainfo_info["md5sum"]
+
+        if "md5" in metainfo_info:
+            torrent.info.md5sum = metainfo_info["md5"]
 
         if "files" in metainfo_info:
             torrent_files = []
@@ -74,6 +77,9 @@ def parse_torrent_file(file_path):
 
                 if "md5sum" in single_file:
                     torrent_file.md5sum = single_file["md5sum"]
+
+                if "md5" in single_file:
+                    torrent_file.md5sum = single_file["md5"]
 
                 if "path" in single_file:
                     torrent_file.path = single_file["path"]
