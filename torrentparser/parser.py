@@ -62,10 +62,16 @@ def parse_torrent_file(file_path):
             torrent.info.length = metainfo_info["length"]
 
         if "md5sum" in metainfo_info:
-            torrent.info.md5 = metainfo_info["md5sum"]
+            torrent.info.checksum = metainfo_info["md5sum"]
+            torrent.info.checksum_type = "MD5"
 
         if "md5" in metainfo_info:
-            torrent.info.md5 = metainfo_info["md5"]
+            torrent.info.checksum = metainfo_info["md5"]
+            torrent.info.checksum_type = "MD5"
+
+        if "sha1" in metainfo_info:
+            torrent.info.checksum = metainfo_info["sha1"]
+            torrent.info.checksum_type = "SHA1"
 
         if "files" in metainfo_info:
             torrent_files = []
@@ -76,10 +82,16 @@ def parse_torrent_file(file_path):
                     torrent_file.length = single_file["length"]
 
                 if "md5sum" in single_file:
-                    torrent_file.md5 = single_file["md5sum"]
+                    torrent_file.checksum = single_file["md5sum"]
+                    torrent_file.checksum_type = "MD5"
 
                 if "md5" in single_file:
-                    torrent_file.md5 = single_file["md5"]
+                    torrent_file.checksum = single_file["md5"]
+                    torrent_file.checksum_type = "MD5"
+
+                if "sha1" in single_file:
+                    torrent_file.checksum = single_file["sha1"]
+                    torrent_file.checksum_type = "SHA1"
 
                 if "path" in single_file:
                     torrent_file.path = single_file["path"]

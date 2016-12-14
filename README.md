@@ -1,6 +1,9 @@
 # BitTorrent Parser
 A native Python implementation of a BitTorrent file parser.
 
+# Current Build Status
+[![Build Status](https://travis-ci.org/maelys-mcardle/torrentparser.svg?branch=master)](https://travis-ci.org/maelys-mcardle/torrentparser)
+
 # Author
 Maelys McArdle ([maelys.bio](http://maelys.bio))
 
@@ -54,13 +57,15 @@ To read the contents of a torrent file, use the `parse_torrent_file`:
     
     # Show info about a single file (single file mode).
     print(torrent.info.name)
-    print(torrent.info.md5)
+    print(torrent.info.checksum)
+    print(torrent.info.checksum_type)
     print(torrent.info.length)
     
     # Show info about multiple files (multiple file mode).
     for torrent_file in torrent.info.files:
         print(torrent_file.path)
-        print(torrent_file.md5)
+        print(torrent_file.checksum)
+        print(torrent_file.checksum_type)
         print(torrent_file.length)
 
         
@@ -151,14 +156,15 @@ Example usage:
       Directory: v1publicacc1985canauoft
       'scandata.zip'
         Size:     53836494 bytes
-        Checksum: 7f00fc2e981f9f23673509c32abb6796
+        Checksum: cb5ba74f06a2ed19d9a558b8d31a0287db7dae63 (Type: SHA1)
     
       'v1publicacc1985canauoft.djvu'
         Size:     12970369 bytes
-        Checksum: 3ff96e977cf6f4516310a029e514444d
+        Checksum: 4ece9941257681116a9c1b2bb801ffcc89b42784 (Type: SHA1)
     
       'v1publicacc1985canauoft.gif'
         Size:     318858 bytes
-        Checksum: bc0740dab98c47d9a80cf41853c93ca4
+        Checksum: a39776a2a16ee1071a1b540aff903f2749d7418f (Type: SHA1)
+
 
     ...

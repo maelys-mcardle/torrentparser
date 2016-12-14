@@ -25,7 +25,8 @@ class Torrent:
         private = None
         name = None
         length = None
-        md5 = None
+        checksum = None
+        checksum_type = None
         files = []
 
     class File:
@@ -33,7 +34,8 @@ class Torrent:
         The class for the "files" field.
         """
         length = None
-        md5 = None
+        checksum = None
+        checksum_type = None
         path = None
 
     class Error(Exception):
