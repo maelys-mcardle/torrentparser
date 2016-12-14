@@ -49,17 +49,17 @@ class TestBencodingDictionary(unittest.TestCase):
 
     def test_simple_dict(self):
         self.assertEqual(decode_dictionary("d3:cow3:moo4:spam4:eggse"),
-                         {
+                         ({
                              "cow": "moo",
                              "spam": "eggs"
-                         }, 14)
+                         }, 24))
 
     def test_longer_dict(self):
         self.assertEqual(decode_dictionary(
             "d9:publisher3:bob17:publisher-webpage15:www.example.com" +
             "18:publisher.location4:homee"),
-            {
+            ({
                 "publisher": "bob",
                 "publisher-webpage": "www.example.com",
                 "publisher.location": "home"
-            }, 11)
+            }, 83))

@@ -146,15 +146,15 @@ def decode_dictionary(encoded_dictionary):
         else:
 
             # Grab the key.
-            key, value_position = decode_item(encoded_dictionary[start_position:])
+            key, key_size = decode_item(encoded_dictionary[start_position:])
 
             # Value unreadable.
-            if value_position >= len(encoded_dictionary):
+            if start_position+key_size >= len(encoded_dictionary):
                 raise BencodingDecodeException("Invalid dictionary (missing data)")
 
             # Grab the value.
-            value, encoded_size = decode_item(encoded_dictionary[value_position:])
-            start_position += encoded_size
+            value, value_size = decode_item(encoded_dictionary[start_position+key_size:])
+            start_position += key_size + value_size
 
             # Load it in the dictionary.
             decoded_dictionary[key] = value
