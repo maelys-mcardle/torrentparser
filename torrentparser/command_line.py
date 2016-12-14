@@ -3,6 +3,7 @@ Provides a command-line interface to show the contents of torrent files.
 """
 import argparse
 from os import sep as directory_separator
+from binascii import hexlify
 from .parser import parse_torrent_file
 from .torrent import Torrent
 
@@ -70,7 +71,7 @@ def print_torrent_file_contents(torrent, is_verbose):
         print("PIECES")
         print("  Encoding:       %s" % torrent.encoding)
         print("  Size per Piece: %d" % torrent.info.piece_length)
-        print("  Pieces: %s\n" % torrent.info.pieces)
+        print("  Pieces: %s\n" % hexlify(torrent.info.pieces))
 
     # Single File Mode.
     print("FILE LISTING")
