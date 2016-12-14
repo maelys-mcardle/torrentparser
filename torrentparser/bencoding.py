@@ -7,7 +7,7 @@ def decode_byte_string(encoded_byte_string):
     """
     Decodes a Bencoding byte string.
     :param encoded_byte_string: The byte string in Bencoding.
-    :return: Tuple containing the byte string and the end byte position.
+    :return: Tuple containing the byte string and the size of the encoded string.
     """
 
     # Find the colon.
@@ -50,7 +50,7 @@ def decode_integer(encoded_integer):
     """
     Decodes a Bencoding integer.
     :param encoded_integer: The integer in Bencoding.
-    :return: Tuple containing the integer and the end byte position.
+    :return: Tuple containing the integer and the size of the encoded integer.
     """
 
     # First byte needs to be a "i" to signify that it's a Bencoding integer.
@@ -85,7 +85,7 @@ def decode_list(encoded_list):
     """
     Decodes a Bencoding list.
     :param encoded_list: The list in Bencoding.
-    :return: Tuple containing the list and the end byte position.
+    :return: Tuple containing the list and the size of the encoded list.
     """
 
     # First byte needs to be a "l" to signify that it's a Bencoding list.
@@ -109,7 +109,8 @@ def decode_list(encoded_list):
 
         # There's a list item. Decode it.
         else:
-            item, start_position = decode_item(encoded_list[start_position:])
+            item, encoded_size = decode_item(encoded_list[start_position:])
+            start_position += encoded_size
             decoded_list.append(item)
 
     return decoded_list, start_position + 1
@@ -119,7 +120,7 @@ def decode_dictionary(encoded_dictionary):
     """
     Decodes a Bencoding dictionary.
     :param encoded_dictionary: The dictionary in Bencoding.
-    :return: Tuple containing the dictionary and the end byte position.
+    :return: Tuple containing the dictionary and the size of the encoded dictionary.
     """
 
     # First byte needs to be a "d" to signify that it's a Bencoding dictionary.
@@ -152,7 +153,8 @@ def decode_dictionary(encoded_dictionary):
                 raise BencodingDecodeException("Invalid dictionary (missing data)")
 
             # Grab the value.
-            value, start_position = decode_item(encoded_dictionary[value_position:])
+            value, encoded_size = decode_item(encoded_dictionary[value_position:])
+            start_position += encoded_size
 
             # Load it in the dictionary.
             decoded_dictionary[key] = value
@@ -164,7 +166,7 @@ def decode_item(encoded_item):
     """
     Decodes the items found in a list or dictionary.
     :param encoded_item: The encoded item (byte string, integer, list, dict).
-    :return: A tuple containing the decoded item and the end byte position.
+    :return: A tuple containing the decoded item and the size of the encoded item.
     """
     first_byte = encoded_item[0]
 
@@ -182,11 +184,11 @@ def decode_item(encoded_item):
 
     # Item is a byte string.
     elif first_byte.isdigit():
-        return decode_dictionary(encoded_item)
+        return decode_byte_string(encoded_item)
 
     # Unknown item.
     else:
-        raise BencodingDecodeException("Unrecognized item")
+        raise BencodingDecodeException("Unrecognized item (type: %s)" % first_byte)
 
 
 class BencodingDecodeException(Exception):
