@@ -33,7 +33,7 @@ To run tests, run the following command:
 
     python setup.py test
     
-# Using the Library
+# Using the Module
 
 To read the contents of a torrent file, use the `parse_torrent_file`:
 
@@ -116,5 +116,18 @@ The file's data can also be obtained as a native Python dictionary with the
             print(torrent_file["length"])
 
 
-# Using the Command-Line
+# Using The Command-Line
 
+The command `show_torrent_info` is provided to open torrent files from the command-line.
+
+It's available upon the installation of the `torrentparser` module.
+
+    # Show the command-line options.
+    show_torrent_info --help
+        
+    # Show information contained in the torrent file. 
+    show_torrent_info /path/to/file.torrent
+    
+    # Show more information stored in the torrent file.
+    show_torrent_info /path/to/file.torrent --verbose
+    

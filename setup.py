@@ -45,7 +45,7 @@ setup(
     # Entry points.
     entry_points={
         'console_scripts': [
-            'torrentparser=command_line:process_command_line',
+            'show_torrent_info=torrentparser.command_line:main',
         ],
     },
 )
