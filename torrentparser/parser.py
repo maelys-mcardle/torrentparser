@@ -4,7 +4,7 @@ Provides the functions to parse a .torrentfile.
 
 from .bencoding import decode_dictionary, BencodingDecodeException
 from .torrent import Torrent
-import datetime.datetime
+import datetime
 
 
 def parse_torrent_file(file_path):
@@ -43,26 +43,26 @@ def parse_torrent_file(file_path):
         torrent.encoding = metainfo["encoding"]
 
     if "info" in metainfo:
-        torrent_info = Torrent.Info()
+        torrent.info = Torrent.Info()
         metainfo_info = metainfo["info"]
 
         if "piece length" in metainfo_info:
-            torrent_info.piece_length = metainfo_info["piece length"]
+            torrent.info.piece_length = metainfo_info["piece length"]
 
         if "pieces" in metainfo_info:
-            torrent_info.pieces = metainfo_info["pieces"]
+            torrent.info.pieces = metainfo_info["pieces"]
 
         if "private" in metainfo_info:
-            torrent_info.private = metainfo_info["private"]
+            torrent.info.private = metainfo_info["private"]
 
         if "name" in metainfo_info:
-            torrent_info.name = metainfo_info["name"]
+            torrent.info.name = metainfo_info["name"]
 
         if "length" in metainfo_info:
-            torrent_info.length = metainfo_info["length"]
+            torrent.info.length = metainfo_info["length"]
 
         if "md5sum" in metainfo_info:
-            torrent_info.name = metainfo_info["md5sum"]
+            torrent.info.name = metainfo_info["md5sum"]
 
         if "files" in metainfo_info:
             torrent_files = []
@@ -81,8 +81,6 @@ def parse_torrent_file(file_path):
                 torrent_files.append(torrent_file)
 
             torrent.info.files = torrent_files
-
-        torrent.info = torrent_info
 
     return torrent
 

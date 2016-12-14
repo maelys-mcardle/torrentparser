@@ -7,6 +7,7 @@ class Torrent:
     """
     The class for the metainfo (torrent) file.
     """
+
     info = None
     announce = None
     announce_list = None
