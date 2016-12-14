@@ -54,13 +54,13 @@ To read the contents of a torrent file, use the `parse_torrent_file`:
     
     # Show info about a single file (single file mode).
     print(torrent.info.name)
-    print(torrent.info.md5sum)
+    print(torrent.info.md5)
     print(torrent.info.length)
     
     # Show info about multiple files (multiple file mode).
     for torrent_file in torrent.info.files:
         print(torrent_file.path)
-        print(torrent_file.md5sum)
+        print(torrent_file.md5)
         print(torrent_file.length)
 
         
@@ -106,13 +106,13 @@ The file's data can also be obtained as a native Python dictionary with the
         
         # Show info about a single file (single file mode).
         print(torrent["info"]["name"])
-        print(torrent["info"]["md5sum"])
+        print(torrent["info"]["md5"])
         print(torrent["info"]["length"])
         
         # Show info about multiple files (multiple file mode).
         for torrent_file in torrent["info"]["files"]:
             print(torrent_file["path"])
-            print(torrent_file["md5sum"])
+            print(torrent_file["md5"])
             print(torrent_file["length"])
 
 

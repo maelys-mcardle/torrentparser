@@ -74,11 +74,11 @@ def print_torrent_file_contents(torrent, is_verbose):
 
     # Single File Mode.
     print("FILE LISTING")
-    if torrent.info.md5sum or torrent.info.length:
+    if torrent.info.md5 or torrent.info.length:
 
         print("  '%s'" % torrent.info.name)
         print("    Size:     %d bytes" % torrent.info.length)
-        print("    Checksum: %s\n" % torrent.info.md5sum)
+        print("    Checksum: %s\n" % torrent.info.md5)
 
     # Multiple File Mode.
     else:
@@ -88,4 +88,4 @@ def print_torrent_file_contents(torrent, is_verbose):
             # Multiple file mode.
             print("  '%s'" % directory_separator.join(torrent_file.path))
             print("    Size:     %d bytes" % torrent_file.length)
-            print("    Checksum: %s\n" % torrent_file.md5sum)
+            print("    Checksum: %s\n" % torrent_file.md5)

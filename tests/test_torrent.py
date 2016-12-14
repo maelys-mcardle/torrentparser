@@ -20,12 +20,12 @@ class TestTorrentFile(unittest.TestCase):
     def test_torrent_file_info_has_attributes(self):
         self.assertListEqual(Torrent.Info.files, [])
         self.assertIsNone(Torrent.Info.length)
-        self.assertIsNone(Torrent.Info.md5sum)
+        self.assertIsNone(Torrent.Info.md5)
         self.assertIsNone(Torrent.Info.name)
         self.assertIsNone(Torrent.Info.pieces)
         self.assertIsNone(Torrent.Info.piece_length)
 
     def test_torrent_file_file_has_attributes(self):
-        self.assertIsNone(Torrent.File.md5sum)
+        self.assertIsNone(Torrent.File.md5)
         self.assertIsNone(Torrent.File.length)
         self.assertIsNone(Torrent.File.path)
