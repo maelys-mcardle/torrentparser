@@ -1,3 +1,6 @@
+"""
+Contains the unit tests to test the bencoding.py functions.
+"""
 import unittest
 from torrentparser.bencoding import decode_byte_string, decode_integer, decode_list, decode_dictionary, \
     BencodingDecodeException
